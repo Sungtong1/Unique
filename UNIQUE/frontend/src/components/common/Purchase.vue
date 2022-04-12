@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="this.product.nft.nftOwnerAddress != myAddress">
     <button type="button" data-bs-toggle="modal" :data-bs-target="`#modal` + `${product.marketId}`" class="btn btn-sm btn-dark d-block">Purchase</button>
     <div class="modal fade" :id="`modal${product.marketId}`" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">

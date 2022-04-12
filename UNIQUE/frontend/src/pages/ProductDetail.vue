@@ -131,7 +131,15 @@
                   <li class="flex-grow-1">
                     <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#placeBidModal" class="btn btn-dark d-block">Purchase</a> -->
                     <!-- <Purchase :product="product"></Purchase> -->
-                    <DetailPurchase :marketContractAddress="marketContractAddress" :nftName="title" :price="price" :nftTokenId="nftTokenId"></DetailPurchase>
+                    <DetailPurchase
+                      v-if="onsale === `On Sale` && Owner != userId"
+                      :marketContractAddress="marketContractAddress"
+                      :nftName="title"
+                      :price="price"
+                      :nftTokenId="nftTokenId"
+                      :nftSeq="nftSeq"
+                      :marketId="marketId"
+                    ></DetailPurchase>
                   </li>
                 </ul>
               </div>
@@ -175,9 +183,10 @@ export default {
       // product: product,
       marketContractAddress: null,
       nftTokenId: null,
-      Owner:null,
-
+      Owner: null,
+      nftSeq: null,
       SectionData,
+      marketId: null,
       id: this.$route.params.id,
       nftCA: null,
       title: "작품 이름", // 작품이름
@@ -257,15 +266,18 @@ export default {
         this.itemDetailList[0].path = res.data.AuthorMember.memberSeq;
         this.itemDetailList[1].path = res.data.OwnerMember.memberSeq;
 
+        this.nftSeq = res.data.nft.nftSeq;
         this.title = res.data.nft.nftName;
         this.nftTokenId = res.data.nft.nftTokenId;
         this.content = res.data.nft.nftDescription;
         this.nftCA = res.data.nft.nftContractAddress;
-        this.imgLg = `https://j6e205.p.ssafy.io/${res.data.nft.fileUrl}`
-        this.Owner = res.data.nft.nftOwnerSeq
+        this.imgLg = `https://j6e205.p.ssafy.io/${res.data.nft.fileUrl}`;
+        this.Owner = res.data.nft.nftOwnerSeq;
         if (res.data.marketList.length >= 1) {
           this.price = res.data.marketList[res.data.marketList.length - 1].price;
-          this.marketContractAdderess = res.data.marketList[res.data.marketList.length - 1].marketContractAddress;
+          // this.marketId = res.data.marketList[res.data.marketList.length - 1].marketId;
+          this.marketId = res.data.marketList[res.data.marketList.length - 1];
+          this.marketContractAddress = res.data.marketList[res.data.marketList.length - 1].marketContractAddress;
         } else {
           this.onsale = "Not for Sale";
         }
@@ -301,7 +313,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["authToken","userId"]),
+    ...mapState(["authToken", "userId"]),
     ...mapGetters(["isLogin"]),
   },
 };

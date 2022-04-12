@@ -79,6 +79,8 @@
 <script>
 import { createPopper } from "@popperjs/core";
 import Purchase from "@/components/common/Purchase";
+import { mapState } from "vuex";
+
 export default {
   name: "Products",
   components: {
@@ -131,8 +133,9 @@ export default {
   //   customTooltip(".custom-tooltip", "active");
   // },
   created: function () {
-    console.log(this.product);
+    console.log(this.product, "아ㅣ아아아");
   },
+  ...mapState(["myAddress"]),
 };
 </script>
 
