@@ -35,7 +35,7 @@
                   </div>
                 </div>
               </div>
-              <div class="card-body card-body-s1">
+              <div class="card-body card-body-s1" style="max-height: 148px; overflow:hidden;">
                 <h4 class="card-title mb-3">{{ item.exhibitionTitle }}</h4>
                 <p class="card-text">{{ item.exhibitionDescription }}</p>
               </div>
